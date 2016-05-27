@@ -14,5 +14,4 @@ script:
   - go env
   - go version
   - pwd
-  - ll -t
   - ls
