@@ -9,8 +9,8 @@ import (
 )
 
 func TestHTTPS(t *testing.T) {
-	https_("github.com")
-	https_("facebook.com")
+	// https_("github.com")
+	https_("www.google.com/search?q=golang&oq=golang&aqs=chrome..69i57j69i60l4.1517j0j4&sourceid=chrome&ie=UTF-8")
 }
 
 func https_(uri string) {
