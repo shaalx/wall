@@ -1,0 +1,13 @@
+image: daocloud.io/library/golang:1.6.0
+
+env:
+  - GOPATH = /app/gopath/
+  - PATH = $PATH:$GOPATH/bin
+
+install:
+  - echo $PATH
+  - echo $GOPATH
+
+script:
+  - go env
+  - go version
