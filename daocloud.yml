@@ -3,7 +3,7 @@ image: daocloud.io/library/golang:1.6.0
 env:
   - GOPATH = /app/gopath/
   - PATH = $PATH:$GOPATH/bin
-  - WORKDIR /app/gopath/src/github.com/shaalx/wall
+  - WORKDIR = /app/gopath/src/github.com/shaalx/wall
 
 install:
   - echo $PATH
@@ -14,3 +14,5 @@ script:
   - go env
   - go version
   - pwd
+  - ll -t
+  - ls
