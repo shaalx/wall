@@ -17,3 +17,4 @@ test:
     - pwd
     - ls
     - go test -v
+    - go run main.go

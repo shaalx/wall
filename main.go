@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/astaxie/beego/httplib"
 	"github.com/shaalx/goutils"
+	"github.com/shaalx/wall/httplib"
 	"net/http"
 	"time"
 )
