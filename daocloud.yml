@@ -7,7 +7,7 @@ env:
 install:
   - echo $PATH
   - echo $GOPATH
-  - go get ./...
+  - go get -u github.com/shaalx/wall
 
 script:
   - go version
