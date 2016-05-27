@@ -1,16 +1,19 @@
-image: daocloud.io/library/golang:1.6.0
+version: 2.0
 
-env:
-  - GOPATH = /app/gopath/
-  - PATH = $PATH:$GOPATH/bin
+test:  
+  image: daocloud/ci-golang:1.6
 
-install:
-  - echo $PATH
-  - echo $GOPATH
-  - go get -u github.com/shaalx/wall
+  env:
+    - GOPATH = /app/gopath/
+    - PATH = $PATH:$GOPATH/bin
 
-script:
-  - go version
-  - pwd
-  - ls
-  - go test -v
+  install:
+    - echo $PATH
+    - echo $GOPATH
+    - go get -u github.com/shaalx/wall
+
+  script:
+    - go version
+    - pwd
+    - ls
+    - go test -v
