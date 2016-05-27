@@ -13,4 +13,4 @@ script:
   - go version
   - pwd
   - ls
-  - go run script.go
+  - go test -v
