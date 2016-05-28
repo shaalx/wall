@@ -10,11 +10,14 @@ import (
 )
 
 func TestHTTPS(t *testing.T) {
-	b := https_("https://www.google.com/search?q=golang&oq=golang&aqs=chrome..69i57j69i60l4.1517j0j4&sourceid=chrome&ie=UTF-8")
-	// b := https_("https://github.com")
-	Upload(b, "test")
-	// https_("https://www.google.com/url?q=https://golang.org/&sa=U&ved=0ahUKEwiFy9WqwfrMAhXjnqYKHSeKA4cQFggUMAA&usg=AFQjCNFcrPeHEGHK2GcA7xFAvhgbQGjr8Q")
-	// https_("https://golangnews.com")
+	for {
+		// b := https_("https://www.google.com/search?q=golang&oq=golang&aqs=chrome..69i57j69i60l4.1517j0j4&sourceid=chrome&ie=UTF-8")
+		b := https_("https://www.google.com/search?q=Blues+Ain%27t+Never+Gonna+Die+%E7%94%B5%E5%90%89%E4%BB%96%E8%B0%B1&oq=Blues+Ain%27t+Never+Gonna+Die+%E7%94%B5%E5%90%89%E4%BB%96%E8%B0%B1&aqs=chrome..69i57.10765j0j7&sourceid=chrome&ie=UTF-8")
+		// b := https_("https://github.com")
+		Upload(b, "guitar")
+		break
+		time.Sleep(1e9)
+	}
 }
 
 func https_(uri string) []byte {
@@ -27,7 +30,7 @@ func https_(uri string) []byte {
 }
 
 func Upload(bs []byte, page string) (err error) {
-	req := httplib.Put(fmt.Sprintf("http://upload.daoapp.io/upload/%s.html", page))
+	req := httplib.Put(fmt.Sprintf("http://localhost/upload/%s.html", page))
 	req.Body(bs)
 	resp, err := req.DoRequest()
 	if goutils.CheckErr(err) {
