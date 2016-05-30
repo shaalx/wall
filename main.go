@@ -26,7 +26,7 @@ func WallLoop() {
 	for {
 		err := clt.Call("RPC.Wall", &in, &out)
 		if goutils.CheckErr(err) {
-			time.Sleep(1e9)
+			time.Sleep(100e9)
 			clt = rpcsv.RPCClientWithCodec(rpc_tcp_server)
 			continue
 		}
@@ -38,7 +38,7 @@ func WallLoop() {
 		err = clt.Call("RPC.WallBack", &out, &ret)
 		goutils.CheckErr(err)
 		out.Result = nil
-		time.Sleep(1e9)
+		time.Sleep(100e9)
 	}
 
 }
