@@ -13,8 +13,8 @@ import (
 )
 
 var (
-	// rpc_tcp_server = "tcphub.t0.daoapp.io:61142"
-	rpc_tcp_server = ":8800"
+	rpc_tcp_server = "tcphub.t0.daoapp.io:61142"
+	// rpc_tcp_server = ":8800"
 )
 
 func TestHTTPS(t *testing.T) {
