@@ -17,5 +17,5 @@ test:
     - go version
     - pwd
     - ls
-    - go test -v
-    # - go run main.go
+    # - go test -v
+    - go run main.go
