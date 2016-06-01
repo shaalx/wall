@@ -7,6 +7,8 @@ import (
 	"github.com/shaalx/wall/httplib"
 	"io/ioutil"
 	"time"
+
+	"net/rpc"
 )
 
 var (
@@ -23,10 +25,16 @@ func WallLoop() {
 	clt := rpcsv.RPCClientWithCodec(rpc_tcp_server)
 	defer clt.Close()
 	out := rpcsv.Job{}
+	ok := false
 	for {
+		fmt.Print(".")
+
+		if ok, clt = checkNil(clt); ok {
+			continue
+		}
 		err := clt.Call("RPC.Wall", &in, &out)
-		if goutils.CheckErr(err) {
-			time.Sleep(100e9)
+		if err != nil {
+			time.Sleep(1e9)
 			clt = rpcsv.RPCClientWithCodec(rpc_tcp_server)
 			continue
 		}
@@ -38,9 +46,19 @@ func WallLoop() {
 		err = clt.Call("RPC.WallBack", &out, &ret)
 		goutils.CheckErr(err)
 		out.Result = nil
-		time.Sleep(100e9)
+		time.Sleep(5e8)
 	}
 
+}
+
+func checkNil(clt *rpc.Client) (bool, *rpc.Client) {
+	if clt == nil {
+		clt = rpcsv.RPCClientWithCodec(rpc_tcp_server)
+		time.Sleep(1e9)
+		fmt.Print("-")
+		return true, clt
+	}
+	return false, clt
 }
 
 func https_(uri string) []byte {
