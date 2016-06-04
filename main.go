@@ -27,12 +27,9 @@ func WallLoop() {
 	defer clt.Close()
 	job := rpcsv.Job{}
 	ok := false
-	i := 1
 	fmt.Print("$: ")
 	for {
-		// fmt.Print("\b")
-		waiting(i)
-		i++
+		fmt.Print(".")
 		if ok, clt = checkNilThenReLoop(clt, false); ok {
 			continue
 		}
@@ -48,12 +45,13 @@ func WallLoop() {
 		}
 		fmt.Println("Wall-result:", job)
 		b := https_(job.Target)
-		// Upload(b, job.Name)
+		Upload(b, job.Name)
 		job.Result = b
 		ret := make([]byte, 1)
 		// clt = rpcsv.RPCClient(rpc_tcp_server)
 		err = clt.Call("RPC.WallBack", &job, &ret)
 		job.Result = nil
+		fmt.Println("Wall-result:", job)
 		if goutils.CheckErr(err) {
 			_, clt = checkNilThenReLoop(clt, true)
 			clt.Call("RPC.JustJob", &job, &b)
