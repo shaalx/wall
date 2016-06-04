@@ -9,11 +9,12 @@ import (
 	"time"
 
 	"net/rpc"
+	"strings"
 )
 
 var (
 	rpc_tcp_server = "tcphub.t0.daoapp.io:61142"
-	// rpc_tcp_server = ":8800"
+	// rpc_tcp_server = "127.0.0.1:8800"
 )
 
 func main() {
@@ -22,38 +23,68 @@ func main() {
 
 func WallLoop() {
 	in := make([]byte, 1)
-	clt := rpcsv.RPCClientWithCodec(rpc_tcp_server)
+	clt := rpcsv.RPCClient(rpc_tcp_server)
 	defer clt.Close()
-	out := rpcsv.Job{}
+	job := rpcsv.Job{}
 	ok := false
+	i := 1
+	fmt.Print("$: ")
 	for {
-		fmt.Print(".")
-
-		if ok, clt = checkNil(clt); ok {
+		// fmt.Print("\b")
+		waiting(i)
+		i++
+		if ok, clt = checkNilThenReLoop(clt, false); ok {
 			continue
 		}
-		err := clt.Call("RPC.Wall", &in, &out)
+		err := clt.Call("RPC.Wall", &in, &job)
 		if err != nil {
-			time.Sleep(1e9)
-			clt = rpcsv.RPCClientWithCodec(rpc_tcp_server)
+			if strings.Contains(err.Error(), "nil-job") {
+				time.Sleep(5e8)
+			} else {
+				fmt.Println(err)
+				_, clt = checkNilThenReLoop(clt, true)
+			}
 			continue
 		}
-		fmt.Println("Wall-result:", out)
-		b := https_(out.Target)
-		Upload(b, out.Name)
-		out.Result = b
+		fmt.Println("Wall-result:", job)
+		b := https_(job.Target)
+		// Upload(b, job.Name)
+		job.Result = b
 		ret := make([]byte, 1)
-		err = clt.Call("RPC.WallBack", &out, &ret)
-		goutils.CheckErr(err)
-		out.Result = nil
+		// clt = rpcsv.RPCClient(rpc_tcp_server)
+		err = clt.Call("RPC.WallBack", &job, &ret)
+		job.Result = nil
+		if goutils.CheckErr(err) {
+			_, clt = checkNilThenReLoop(clt, true)
+			clt.Call("RPC.JustJob", &job, &b)
+		}
 		time.Sleep(5e8)
 	}
 
 }
 
-func checkNil(clt *rpc.Client) (bool, *rpc.Client) {
-	if clt == nil {
-		clt = rpcsv.RPCClientWithCodec(rpc_tcp_server)
+func waiting(i int) {
+	m := i % 4
+	switch m {
+	case 0:
+		fmt.Print("\b—")
+		break
+	case 1:
+		fmt.Print("\b\b/")
+		break
+	case 2:
+		fmt.Print("\b|")
+		break
+	case 3:
+		fmt.Print("\b\\")
+		break
+	}
+}
+
+// 是否重新开始循环
+func checkNilThenReLoop(clt *rpc.Client, reconnect bool) (bool, *rpc.Client) {
+	if clt == nil || reconnect {
+		clt = rpcsv.RPCClient(rpc_tcp_server)
 		time.Sleep(1e9)
 		fmt.Print("-")
 		return true, clt
