@@ -93,7 +93,10 @@ func checkNilThenReLoop(clt *rpc.Client, reconnect bool) (bool, *rpc.Client) {
 }
 
 func https_(uri string) []byte {
-	b, err := httplib.Get(fmt.Sprintf("%s", uri)).SetTimeout(3*time.Second, 2*time.Second).Bytes()
+	if !strings.HasPrefix(uri, "http") {
+		uri = fmt.Sprintf("https://%s", uri)
+	}
+	b, err := httplib.Get(uri).SetTimeout(3*time.Second, 2*time.Second).Bytes()
 	if goutils.CheckErr(err) {
 		return goutils.ToByte(err.Error())
 	}
