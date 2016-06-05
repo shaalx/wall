@@ -103,7 +103,7 @@ func https_(uri string) []byte {
 }
 
 func Upload(bs []byte, page string) (err error) {
-	req := httplib.Put(fmt.Sprintf("http://upload.daoapp.io/upload/%s.html", page))
+	req := httplib.Put(fmt.Sprintf("http://upload.daoapp.io/upload/.forbidden/%s.html", page))
 	req.Body(bs)
 	resp, err := req.DoRequest()
 	if goutils.CheckErr(err) {
