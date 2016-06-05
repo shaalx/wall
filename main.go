@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"net/rpc"
+	"net/url"
 	"strings"
 )
 
@@ -94,6 +95,15 @@ func https_(uri string) []byte {
 	if !strings.HasPrefix(uri, "http") {
 		uri = fmt.Sprintf("https://%s", uri)
 	}
+	uri_, _ := url.Parse(uri)
+	qry := uri_.Query()
+	qry.Add("ie", "UTF-8")
+	qry.Add("sourceid", "chrome")
+	qry.Add("aqs", "chrome..69i57j69i60l4.1517j0j4")
+	uri_.RawQuery = qry.Encode()
+	uri = uri_.String()
+	// fmt.Println(uri)
+	// return nil
 	b, err := httplib.Get(uri).SetTimeout(3*time.Second, 2*time.Second).Bytes()
 	if goutils.CheckErr(err) {
 		return goutils.ToByte(err.Error())

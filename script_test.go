@@ -5,5 +5,13 @@ import (
 )
 
 func TestHTTPS(t *testing.T) {
-	WallLoop()
+	// WallLoop()
+	uri := "www.baidu.com"
+	https_(uri)
+	uri = "baidu.com"
+	https_(uri)
+	uri = "baidu.com?q=123"
+	https_(uri)
+	uri = "baidu.com?q=123&from=shaalx"
+	https_(uri)
 }
