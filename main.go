@@ -93,7 +93,7 @@ func checkNilThenReLoop(clt *rpc.Client, reconnect bool) (bool, *rpc.Client) {
 
 func https_(uri string) []byte {
 	if !strings.HasPrefix(uri, "http") {
-		uri = fmt.Sprintf("https://%s", uri)
+		uri = fmt.Sprintf("https://google.com/search?q=%s", uri)
 	}
 	uri_, _ := url.Parse(uri)
 	qry := uri_.Query()
