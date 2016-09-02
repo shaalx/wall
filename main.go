@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/everfore/rpcsv"
-	"github.com/shaalx/goutils"
-	"github.com/shaalx/wall/httplib"
+	"github.com/toukii/goutils"
+	"github.com/toukii/wall/httplib"
 	"io/ioutil"
 	"time"
 

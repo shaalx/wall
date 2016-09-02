@@ -12,6 +12,6 @@ func TestHTTPS(t *testing.T) {
 	https_(uri)
 	uri = "baidu.com?q=123"
 	https_(uri)
-	uri = "baidu.com?q=123&from=shaalx"
+	uri = "baidu.com?q=123&from=toukii"
 	https_(uri)
 }
