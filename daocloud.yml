@@ -10,7 +10,7 @@ test:
   install:
     - echo $PATH
     - echo $GOPATH
-    - go get -u github.com/shaalx/wall
+    - go get -u github.com/toukii/wall
     - go get -u github.com/everfore/rpcsv
 
   script:
